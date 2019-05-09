@@ -159,13 +159,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="TutorialApplication.cpp" />
-    <ClCompile Include="Instance.cpp" />
+    <ClCompile Include="Src\Devices\LogicalDevice.cpp" />
+    <ClCompile Include="Src\Devices\PhysicalDevice.cpp" />
+    <ClCompile Include="Src\Devices\Surface.cpp" />
+    <ClCompile Include="Src\main.cpp" />
+    <ClCompile Include="Src\TutorialApplication.cpp" />
+    <ClCompile Include="Src\Devices\Instance.cpp" />
+    <ClCompile Include="Src\Devices\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TutorialApplication.h" />
-    <ClInclude Include="Instance.h" />
+    <ClInclude Include="Src\Devices\LogicalDevice.h" />
+    <ClInclude Include="Src\Devices\PhysicalDevice.h" />
+    <ClInclude Include="Src\Devices\Surface.h" />
+    <ClInclude Include="Src\TutorialApplication.h" />
+    <ClInclude Include="Src\Devices\Instance.h" />
+    <ClInclude Include="Src\Devices\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

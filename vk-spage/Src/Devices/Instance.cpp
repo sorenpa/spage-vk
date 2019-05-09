@@ -1,10 +1,6 @@
 #include "Instance.h"
 
-#ifdef NDEBUG
-const bool enableValidationLayers = false;
-#else
-const bool enableValidationLayers = true;
-#endif
+#include "Window.h"
 
 VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 	VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
@@ -18,7 +14,9 @@ VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 	return VK_FALSE;
 }
 
-Instance::Instance()
+Instance::Instance() :
+	m_debugMessenger(VK_NULL_HANDLE),
+	m_instance(VK_NULL_HANDLE)
 {
 	SetupLayers();
 	SetupExtensions();
@@ -29,20 +27,21 @@ Instance::Instance()
 
 Instance::~Instance()
 {
-	if (enableValidationLayers) {
-		DestroyDebugUtilsMessengerEXT(m_instance, m_debugMessenger, nullptr);
-	}
+#ifndef NDEBUG
+	DestroyDebugUtilsMessengerEXT(m_instance, m_debugMessenger, nullptr);
+#endif // NDEBUG
 
 	vkDestroyInstance(m_instance, nullptr);
 }
 
 void Instance::SetupLayers() 
 {
-	//// Check for validationlayer support
-	if (!enableValidationLayers) {
-		return;
-	}
 
+#ifdef NDEBUG
+	return;
+#endif // !DEBUG
+
+	// Check for validationlayer support
 	m_instanceLayers = {
 		"VK_LAYER_LUNARG_standard_validation",
 	};
@@ -79,16 +78,16 @@ void Instance::SetupExtensions()
 	vkEnumerateInstanceExtensionProperties(nullptr, &availableExtensionsCount, availableExtensions.data());
 
 	// Get required extensions for GLFW
-	uint32_t glfwExtensionCount = 0;
+	/*uint32_t glfwExtensionCount = 0;
 	const char** glfwExtensions;
-	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-	m_instanceExtensions.assign(glfwExtensions, glfwExtensions + glfwExtensionCount);
+	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);*/
+	auto windowExtensions = Window::GetInstanceExtensions();
+	m_instanceExtensions.assign(windowExtensions.first, windowExtensions.first + windowExtensions.second);
 
 	// Get required extensions for validation layers
-	if (enableValidationLayers) {
-		m_instanceExtensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-	}
+#ifndef NDEBUG
+	m_instanceExtensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+#endif // NDEBUG
 
 	// Check all required extensions are present
 	for (const auto& instanceExtension : m_instanceExtensions)
@@ -135,7 +134,10 @@ void Instance::CreateInstance()
 
 void Instance::CreateDebugCallback() 
 {
-	if (!enableValidationLayers) return;
+#ifdef NDEBUG
+	return;
+#endif // !DEBUG
+
 
 	VkDebugUtilsMessengerCreateInfoEXT createMessengerInfo = {};
 	createMessengerInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
