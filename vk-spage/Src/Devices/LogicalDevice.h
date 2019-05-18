@@ -10,6 +10,11 @@
 class LogicalDevice
 {
 public:
+
+	const VkDevice GetLogicaDevice() const { return m_logicalDevice; };
+	const uint32_t& GetGraphicsFamily() const { return m_graphicsFamily; };
+	const uint32_t& GetPresentFamily() const { return m_presentFamily; };
+
 	LogicalDevice(const Instance* instance, const PhysicalDevice* physicalDevice, const Surface* surface);
 	~LogicalDevice();
 

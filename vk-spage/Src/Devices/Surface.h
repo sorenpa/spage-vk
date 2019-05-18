@@ -1,6 +1,5 @@
 #pragma once
 #include <vulkan/vulkan.h>
-#include <GLFW/glfw3.h>
 
 #include "Instance.h"
 #include "Window.h"
@@ -18,14 +17,13 @@ public:
 	Surface(const Instance* instance, const Window* window);
 	~Surface();
 
-	
-
-
 private:
 	void CreateSurface();
 	
 	const Window* m_window;
 	const Instance* m_instance;
+
 	VkSurfaceKHR m_surface;
+
 };
 

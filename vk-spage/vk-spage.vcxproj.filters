@@ -36,6 +36,15 @@
     <ClCompile Include="Src\Devices\Surface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Presentation\SwapChain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Pipelines\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Pipelines\PipeLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Devices\Instance.h">
@@ -56,5 +65,23 @@
     <ClInclude Include="Src\Devices\Surface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Presentation\SwapChain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Pipelines\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Pipelines\PipeLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\Sources\triangle.frag" />
+    <None Include="Resources\Shaders\Sources\triangle.vert" />
+    <None Include="Resources\Shaders\compileShaders.bat">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Resources\Shaders\Compiled\triangle.frag.spv" />
+    <None Include="Resources\Shaders\Compiled\triangle.vert.spv" />
   </ItemGroup>
 </Project>

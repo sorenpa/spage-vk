@@ -36,6 +36,8 @@ Instance::~Instance()
 
 void Instance::SetupLayers() 
 {
+	// setup required device extensions for this instance
+	m_deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME }; // VK_AMD_SHADER_IMAGE_LOAD_STORE_LOD_EXTENSION_NAME,
 
 #ifdef NDEBUG
 	return;

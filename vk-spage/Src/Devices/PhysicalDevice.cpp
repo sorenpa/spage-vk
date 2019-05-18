@@ -2,8 +2,9 @@
 
 
 
-PhysicalDevice::PhysicalDevice(const Instance *instance) :
+PhysicalDevice::PhysicalDevice(const Instance *instance, const Surface* surface) :
 	m_instance(instance),
+	m_surface(surface),
 	m_physicalDevice(VK_NULL_HANDLE),
 	m_properties({}),
 	m_features({}),
@@ -56,20 +57,22 @@ void PhysicalDevice::PickDevice() {
 	}
 }
 
-bool PhysicalDevice::IsDeviceSuitable(VkPhysicalDevice device) {
+bool PhysicalDevice::IsDeviceSuitable(VkPhysicalDevice physicalDevice) {
 
 	VkPhysicalDeviceProperties deviceProperties;
-	vkGetPhysicalDeviceProperties(device, &deviceProperties);
+	vkGetPhysicalDeviceProperties(physicalDevice, &deviceProperties);
 
 	VkPhysicalDeviceFeatures deviceFeatures;
-	vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+	vkGetPhysicalDeviceFeatures(physicalDevice, &deviceFeatures);
 
 	uint32_t extensionPropertyCount;
-	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionPropertyCount, nullptr);
+	vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr, &extensionPropertyCount, nullptr);
 
 	std::vector<VkExtensionProperties> extensionProperties(extensionPropertyCount);
-	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionPropertyCount, extensionProperties.data());
+	vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr, &extensionPropertyCount, extensionProperties.data());
 
+	// Check extensions
+	bool extensionsSupported = true;
 	for (const auto& requiredExtension : m_instance->GetDeviceExtensions()) {
 		bool extensionFound = false;
 		for (const auto& deviceExtension : extensionProperties) {
@@ -82,11 +85,24 @@ bool PhysicalDevice::IsDeviceSuitable(VkPhysicalDevice device) {
 
 		if (!extensionFound)
 		{
-			return false;
+			extensionsSupported = false;
+			break;
 		}
 	}
 
-	return deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
-		deviceFeatures.geometryShader;
+	// Check for surface support
+	uint32_t presentModeCount;
+	vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, m_surface->GetSurface(), &presentModeCount, nullptr);
+
+	uint32_t surfaceFormatCount;
+	vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, m_surface->GetSurface(), &surfaceFormatCount, nullptr);
+
+	bool surfaceSupported = presentModeCount > 0 && surfaceFormatCount > 0;
+
+	return deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && 
+		   deviceFeatures.geometryShader && 
+		   extensionsSupported && 
+		   surfaceSupported;
 
 }
+

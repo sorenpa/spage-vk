@@ -4,12 +4,13 @@
 #include <vector>
 
 #include "instance.h"
+#include "surface.h"
 
 
 class PhysicalDevice
 {
 public:
-	PhysicalDevice(const Instance* instance);
+	PhysicalDevice(const Instance* instance, const Surface* surface);
 	~PhysicalDevice();
 
 	const VkPhysicalDevice GetPhysicalDevice() const { return m_physicalDevice; };
@@ -20,6 +21,8 @@ private:
 	bool IsDeviceSuitable(VkPhysicalDevice device);
 
 	const Instance* m_instance;
+	const Surface* m_surface;
+
 	std::vector<VkPhysicalDevice> m_devices;
 
 	VkPhysicalDevice m_physicalDevice;

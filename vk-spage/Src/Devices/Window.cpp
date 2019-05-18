@@ -35,3 +35,11 @@ void Window::PollEvents()
 {
 	glfwPollEvents();
 }
+
+VkResult Window::CreateSurface(const VkInstance &instance, const VkAllocationCallbacks *allocator, VkSurfaceKHR *surface) const {
+	return glfwCreateWindowSurface(instance, m_window, allocator, surface);
+}
+
+VkExtent2D Window::GetExtend() const{
+	return { WIDTH, HEIGHT };
+}

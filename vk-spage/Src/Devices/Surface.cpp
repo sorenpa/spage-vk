@@ -1,7 +1,7 @@
 
 #include "Surface.h"
 
-Surface::Surface(const Instance* instance, const Window* window):
+Surface::Surface(const Instance* instance, const Window* window) :
 	m_instance(instance),
 	m_window(window)
 {
@@ -13,7 +13,8 @@ Surface::~Surface(){
 }
 
 void Surface::CreateSurface() {
-	if (glfwCreateWindowSurface(m_instance->GetInstance(), m_window->GetWindow(), nullptr, &m_surface) != VK_SUCCESS) {
+	if (m_window->CreateSurface(m_instance->GetInstance(), nullptr, &m_surface) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create window surface!");
 	}
 }
+

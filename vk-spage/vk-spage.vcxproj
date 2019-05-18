@@ -159,6 +159,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Pipelines\PipeLine.cpp" />
+    <ClCompile Include="Src\Pipelines\Shader.cpp" />
     <ClCompile Include="Src\Devices\LogicalDevice.cpp" />
     <ClCompile Include="Src\Devices\PhysicalDevice.cpp" />
     <ClCompile Include="Src\Devices\Surface.cpp" />
@@ -166,14 +168,25 @@
     <ClCompile Include="Src\TutorialApplication.cpp" />
     <ClCompile Include="Src\Devices\Instance.cpp" />
     <ClCompile Include="Src\Devices\Window.cpp" />
+    <ClCompile Include="Src\Presentation\SwapChain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Pipelines\PipeLine.h" />
+    <ClInclude Include="Src\Pipelines\Shader.h" />
     <ClInclude Include="Src\Devices\LogicalDevice.h" />
     <ClInclude Include="Src\Devices\PhysicalDevice.h" />
     <ClInclude Include="Src\Devices\Surface.h" />
     <ClInclude Include="Src\TutorialApplication.h" />
     <ClInclude Include="Src\Devices\Instance.h" />
     <ClInclude Include="Src\Devices\Window.h" />
+    <ClInclude Include="Src\Presentation\SwapChain.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\Compiled\triangle.frag.spv" />
+    <None Include="Resources\Shaders\Compiled\triangle.vert.spv" />
+    <None Include="Resources\Shaders\compileShaders.bat" />
+    <None Include="Resources\Shaders\Sources\triangle.frag" />
+    <None Include="Resources\Shaders\Sources\triangle.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
